@@ -1,5 +1,6 @@
 import { useState } from "react";
-import Calculator from "./components/Calculator";
+
+import Cal from "./Components/Cal";
 
 function App() {
   const [dark, setDark] = useState(true);

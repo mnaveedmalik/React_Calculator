@@ -3,7 +3,7 @@ import { useState } from "react";
 import Display from "./Display";
 import Keypad from "./Keypad";
 
-export default function Calculator({ dark, setDark }) {
+export default function Cal({ dark, setDark }) {
     const [expression, setExpression] = useState("");
     const [result, setResult] = useState("");
     const [finalMode, setFinalMode] = useState(false);
