@@ -10,7 +10,7 @@ function App() {
       className={`min-h-screen flex items-center justify-center ${dark ? "bg-gray-900" : "bg-gray-200"
         }`}
     >
-      <Calculator dark={dark} setDark={setDark} />
+      <Cal dark={dark} setDark={setDark} />
     </div>
   );
 }
