@@ -1,4 +1,4 @@
-// import { Sun, Moon } from "lucide-react";
+
 import { Sun, Moon } from "lucide-react";
 
 export default function ThemeToggle({ setDark }) {
