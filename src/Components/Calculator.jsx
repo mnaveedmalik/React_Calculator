@@ -1,71 +1,75 @@
-// import React, { useState } from "react";
-import React, { useState } from "react";
-import Result from "./Result";
+import { Sun, Moon } from "lucide-react";
+import { useState } from "react";
+import Display from "./Display";
 import Keypad from "./Keypad";
 
-export default function Calculator() {
+export default function Calculator({ dark, setDark }) {
+    const [expression, setExpression] = useState("");
     const [result, setResult] = useState("");
+    const [finalMode, setFinalMode] = useState(false);
 
-    // ✅ SAFE CALCULATE FUNCTION (no eval)
-    const calculate = (expression) => {
+    const calculate = (exp) => {
         try {
-            const tokens = expression.match(/(\d+\.?\d*|[+\-*/])/g);
-
-            if (!tokens) return "0";
-
-            let total = parseFloat(tokens[0]);
-
-            for (let i = 1; i < tokens.length; i += 2) {
-                const operator = tokens[i];
-                const nextNumber = parseFloat(tokens[i + 1]);
-
-                if (isNaN(nextNumber)) return "Error";
-
-                if (operator === "+") total += nextNumber;
-                else if (operator === "-") total -= nextNumber;
-                else if (operator === "*") total *= nextNumber;
-                else if (operator === "/") total /= nextNumber;
-            }
-
-            return total.toString();
+            if (!/[+\-*/]/.test(exp)) return "";
+            return Function("return " + exp)();
         } catch {
-            return "Error";
+            return "";
         }
     };
 
-    const handleClick = (e) => {
-        const value = e.target.name;
-
-        if (value === "C") {
-            setResult("");   // clear
-        }
-        else if (value === "=") {
-            if (result === "") {
-                setResult("0");   // ✅ FIX (empty case)
-                return;
-            }
-
-            const output = calculate(result);
-            setResult(output);
-        }
-        else {
-            setResult(result + value);
+    const handleClick = (val) => {
+        if (val === "C") {
+            setExpression("");
+            setResult("");
+            setFinalMode(false);
+        } else if (val === "=") {
+            const res = calculate(expression);
+            setResult(res);
+            setExpression(res.toString());
+            setFinalMode(true);
+        } else {
+            const newExp = finalMode ? val : expression + val;
+            setExpression(newExp);
+            setResult(calculate(newExp));
+            setFinalMode(false);
         }
     };
 
     return (
         <div
-            style={{
-                border: "2px solid black",
-                padding: "20px",
-                width: "250px",
-                margin: "20px auto",
-                textAlign: "center",
-            }}
+            className={`
+        w-[320px] rounded-3xl shadow-2xl p-4
+        ${dark ? "bg-black text-white" : "bg-white text-black"}
+      `}
         >
-            <h2>Calculator</h2>
-            <Result result={result} />
-            <Keypad onClick={handleClick} />
+            {/* 🔝 Top Icons */}
+            <div className="flex justify-end gap-3 mb-4">
+
+                <button
+                    onClick={() => setDark(false)}
+                    className="p-2 rounded-full bg-gray-200"
+                >
+                    <Sun size={18} />
+                </button>
+
+                <button
+                    onClick={() => setDark(true)}
+                    className="p-2 rounded-full bg-gray-700 text-white"
+                >
+                    <Moon size={18} />
+                </button>
+
+            </div>
+
+            {/* 📟 Display */}
+            <Display
+                expression={expression}
+                result={result}
+                finalMode={finalMode}
+            />
+
+            {/* 🔢 Keypad */}
+            <Keypad onClick={handleClick} dark={dark} />
         </div>
     );
 }

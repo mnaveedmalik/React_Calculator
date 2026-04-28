@@ -1,29 +1,25 @@
+const buttons = [
+    "C", "/", "*",
+    "7", "8", "9",
+    "4", "5", "6",
+    "1", "2", "3",
+    "0", ".", "+", "-", "="
+];
 
-import React from "react";
 export default function Keypad({ onClick }) {
-    const btnStyle = {
-        padding: "10px",
-        margin: "5px",
-        width: "50px",
-        cursor: "pointer",
-    };
-
-    const buttons = [
-        "7", "8", "9", "/",
-        "4", "5", "6", "*",
-        "1", "2", "3", "-",
-        "0", ".", "=", "+",
-        "C"
-    ];
-
     return (
-        <div>
+        <div className="grid grid-cols-4 gap-3 mt-4">
             {buttons.map((btn) => (
                 <button
                     key={btn}
-                    name={btn}
-                    onClick={onClick}
-                    style={btnStyle}
+                    onClick={() => onClick(btn)}
+                    className="
+            p-4 rounded-full 
+            bg-gray-200 dark:bg-gray-700 
+            text-black dark:text-white 
+            hover:bg-gray-300 dark:hover:bg-gray-600
+            transition
+          "
                 >
                     {btn}
                 </button>
