@@ -1,18 +1,16 @@
-export default function Display({ expression, result, finalMode }) {
+
+import React from "react";
+
+export default function Display({ expression, setExpression, inputRef }) {
     return (
-        <div className="text-right p-4">
-
-            {/* Expression hide after = */}
-            {!finalMode && (
-                <div className="text-2xl text-gray-500">
-                    {expression || "0"}
-                </div>
-            )}
-
-            {/* Result */}
-            <div className="text-4xl font-bold">
-                {result || expression || "0"}
-            </div>
+        <div className="mb-4">
+            <input
+                ref={inputRef}
+                type="text"
+                value={expression}
+                onChange={(e) => setExpression(e.target.value)}
+                className="w-full text-right text-3xl p-3 outline-none bg-transparent"
+            />
         </div>
     );
 }
